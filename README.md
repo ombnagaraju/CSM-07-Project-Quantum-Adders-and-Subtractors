@@ -2,33 +2,24 @@
 
 ## Project Title
 
-**Reversible Image Recovery Using Quantum Adder-Subtractor**
+**Design and Performance Analysis of an Optimized Reversible Quantum Adder-Cum-Subtractor Using Qiskit**
 
 ## Overview
 
-This project is based on the quantum binary adder-subtractor concept presented in the reference paper:
+This project focuses on the design, implementation, optimization, and performance analysis of a **reversible quantum adder-cum-subtractor using Qiskit**.
 
-**H. A. Bhat, F. A. Khanday, and B. K. Kaushik, “Optimized Quantum Implementation of Novel Controlled Adder/Subtractor,” Quantum Information Processing, Vol. 22, Article 174, 2023.**
+The project is based on the study of existing research in reversible arithmetic, quantum full adders, reversible adders/subtractors, and image-processing applications.
 
-The main objective of this project is to implement quantum arithmetic using **reversible quantum circuits** and extend it to a practical **image-processing application**.
+The main objective is to develop a quantum arithmetic circuit that can perform both **addition and subtraction** while preserving reversibility and analyzing the resources required by the circuit.
 
-The project allows the user to provide two input images, **Image A** and **Image B**. The images are processed pixel by pixel. Pixel values are converted into binary values and given to a quantum adder circuit.
+The project also extends the quantum arithmetic circuit to a practical **image-processing application**.
+
+Two input images, **Image A** and **Image B**, are provided to the system. The images are processed pixel by pixel. The pixel values are converted into binary representation and processed using the proposed quantum arithmetic circuit.
 
 The addition operation is:
 
 ```text
 A + B = C
-```
-
-where `C` is the generated output image.
-
-The project then demonstrates image recovery. If Image A is considered unavailable, Image A can be reconstructed using Image C and Image B:
-
-```text
-C - B = A
-```
-
-The recovered image is compared with the original Image A to verify the correctness of the arithmetic operation.
 
 ## Main Workflow
 
