@@ -1,0 +1,7 @@
+Paper,Main Focus,Technology,Main Metrics,Image Application
+Nitya et al. (2025),Approximate reversible full adders for image processing,Reversible quantum circuits + Cadence Xcelium + MATLAB,"GC, QC, AI, GO, PSNR, SSIM",Image addition
+Raveendran et al. (2020),Approximate reversible logic for low-power image processing,Reversible logic + FPGA + MATLAB,"QC, GC, CI, GO, PSNR, SSIM",Haar wavelet/lifting image processing
+Jeon (2024),Reversible full adder-subtractor using QCA,QCA + QCADesigner,"Area, delay, energy, output polarization",Not the main application
+Kadbe & Markande (2024),Reversible adders and multipliers using Peres gates,Peres-gate reversible logic,"Quantum cost, hardware reduction",Not the main application
+Kulkarni et al. (2024),Optimization of 1-Toffoli quantum full adders,Quantum full adders + spin-torque architecture,"Fidelity, execution time, elementary operations",Not the main application
+Our Work (2026),Optimized reversible quantum adder-cum-subtractor,Qiskit,"Gate count, QC, depth, qubits, PSNR, SSIM",Image addition and recovery

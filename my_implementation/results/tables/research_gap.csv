@@ -1,0 +1,8 @@
+Research Area,Existing Literature,Our Work
+Combined addition and subtraction,Available in some reversible/QCA designs,Single adder-cum-subtractor
+Qiskit implementation,Available in selected quantum-circuit studies,Implemented using Qiskit
+Circuit optimization,Studied using different optimization methods,Baseline vs optimized circuit
+Circuit resource analysis,Metrics vary between studies,"Gate count, depth and QC"
+Image addition,Used in image-processing studies,Implemented
+Image recovery,Not the common focus of the selected papers,Implemented using subtraction
+PSNR and SSIM evaluation,Used mainly for approximate image-processing evaluation,PSNR and SSIM

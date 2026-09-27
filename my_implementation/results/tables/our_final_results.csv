@@ -1,0 +1,14 @@
+Metric,Baseline,Optimized
+Qubits,5,5
+Gate Count,9,6
+CNOT Count,6,5
+Toffoli Count,3,1
+Circuit Depth,7,4
+Quantum Cost,21,10
+Gate Count Reduction,-,33.33%
+Depth Reduction,-,42.86%
+Quantum Cost Reduction,-,52.38%
+Image Size,-,16 × 16
+Different Pixels,-,0
+PSNR,-,∞
+SSIM,-,1.0

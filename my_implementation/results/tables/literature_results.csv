@@ -1,0 +1,7 @@
+Paper,Reported / Measured Result
+Nitya et al. (2025),RAFA3: 50% QC reduction and 66.67% GC reduction; RAFA4: PSNR 34.20 dB and SSIM 0.96
+Raveendran et al. (2020),"RAFA-1: average PSNR 31.81 dB, SSIM 0.9679; RAFA-2: PSNR 32.15 dB, SSIM 0.9696"
+Jeon (2024),"Proposed circuit uses one reversible QCA gate and two Feynman gates; evaluates delay, energy and design cost"
+Kadbe & Markande (2024),Peres-gate reversible arithmetic; hardware reduction evaluated mainly through quantum cost
+Kulkarni et al. (2024),1-Toffoli QFAs; average fidelity about 98.34% and 98.21% for QFA1 and QFA2
+Our Work (2026),"Gate count 9→6, depth 7→4, QC 21→10; image recovery: PSNR = ∞, SSIM = 1.0"
