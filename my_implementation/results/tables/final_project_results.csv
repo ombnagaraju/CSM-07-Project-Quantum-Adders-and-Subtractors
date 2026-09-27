@@ -1,0 +1,11 @@
+Category,Result
+Gate Count,9 → 6
+Circuit Depth,7 → 4
+Quantum Cost,21 → 10
+Toffoli Count,3 → 1
+Qubit Count,5 → 5
+Image Size,16 × 16
+Different Pixels,0
+Maximum Pixel Difference,0
+PSNR,∞
+SSIM,1.0

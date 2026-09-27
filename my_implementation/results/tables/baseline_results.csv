@@ -1,0 +1,2 @@
+Circuit,Qubits,Depth,Total_Gates,CNOT_Count,Toffoli_Count
+Baseline Adder-Cum-Subtractor,5,7,9,6,3

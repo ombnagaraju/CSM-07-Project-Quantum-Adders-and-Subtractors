@@ -1,0 +1,7 @@
+Metric,Baseline,Optimized
+Number of Qubits,5,5
+Gate Count,9,6
+CNOT Count,6,5
+Toffoli Count,3,1
+Circuit Depth,7,4
+Quantum Cost,21,10

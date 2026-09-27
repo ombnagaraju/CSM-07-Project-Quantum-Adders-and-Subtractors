@@ -1,0 +1,10 @@
+Parameter,Value
+Image Height,16
+Image Width,16
+Total Pixels,256
+Maximum Pixel Difference,0
+Total Absolute Error,0
+Different Pixels,0
+PSNR,inf
+SSIM,1.0
+Image Recovery,PERFECT

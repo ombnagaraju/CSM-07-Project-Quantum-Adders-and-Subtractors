@@ -1,0 +1,2 @@
+Circuit,Qubits,Depth,Total_Gates,CNOT_Count,Toffoli_Count
+Optimized Adder-Cum-Subtractor,5,6,6,5,1

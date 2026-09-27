@@ -1,0 +1,6 @@
+Metric,Baseline,Optimized
+Transpiled Qubits,5,5
+Transpiled Depth,34,13
+Transpiled Total Gates,51,20
+Transpiled CX Gates,24,11
+Transpiled U Gates,27,9

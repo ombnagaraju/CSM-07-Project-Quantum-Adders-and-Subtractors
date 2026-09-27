@@ -1,0 +1,5 @@
+Metric,Baseline,Optimized,Reduction_Percent
+Gate Count,9,6,33.33333333333333
+Circuit Depth,7,6,14.285714285714285
+Toffoli Gates,3,1,66.66666666666666
+Quantum Cost,21,10,52.38095238095239

@@ -1,0 +1,6 @@
+Metric,Improvement (%)
+Gate Count Reduction (%),33.33333333333333
+CNOT Reduction (%),16.666666666666664
+Toffoli Reduction (%),66.66666666666666
+Circuit Depth Reduction (%),42.857142857142854
+Quantum Cost Reduction (%),52.38095238095239
