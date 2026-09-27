@@ -1,0 +1,15 @@
+Component,Status
+Quantum basics,Completed
+1-bit full adder,Completed
+1-bit full subtractor,Completed
+Baseline adder-cum-subtractor,Completed
+Optimized adder-cum-subtractor,Completed
+Quantum cost analysis,Completed
+Transpilation analysis,Completed
+8-bit arithmetic,Completed
+8-bit verification,20/20 Passed
+Image addition,Completed
+Image recovery,Completed
+PSNR analysis,Completed
+SSIM analysis,Completed
+Literature comparison,Completed

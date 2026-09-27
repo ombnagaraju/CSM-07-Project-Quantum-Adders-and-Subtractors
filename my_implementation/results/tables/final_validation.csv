@@ -1,0 +1,12 @@
+Category,Metric,Result
+Optimized Circuit,Gate Count,6
+Optimized Circuit,Circuit Depth,4
+Optimized Circuit,Quantum Cost,10
+Optimized Circuit,Toffoli Count,1
+Optimization,Gate Count Reduction,33.33%
+Optimization,Depth Reduction,42.86%
+Optimization,Quantum Cost Reduction,52.38%
+Image Processing,Different Pixels,0
+Image Processing,Maximum Pixel Difference,0
+Image Processing,PSNR,∞
+Image Processing,SSIM,1.0
