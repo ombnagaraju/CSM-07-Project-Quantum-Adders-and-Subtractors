@@ -1,8 +1,0 @@
-Domain,Metric,Baseline,Optimized,Absolute_Reduction,Percentage_Reduction,Meets_Acceptance_Criteria
-1-Bit Full Adder,Total Gate Count,6,5,1,16.67,True
-1-Bit Full Adder,Quantum Cost (NCV),14,13,1,7.14,True
-1-Bit Full Adder,Total Qubits,5,4,1,20.0,True
-4-Bit Adder-Subtractor,Total Gate Count,50,40,10,20.0,True
-4-Bit Adder-Subtractor,CNOT Count,36,26,10,27.78,True
-4-Bit Adder-Subtractor,Quantum Cost (NCV),106,96,10,9.43,True
-4-Bit Adder-Subtractor,Circuit Depth,22,20,2,9.09,True

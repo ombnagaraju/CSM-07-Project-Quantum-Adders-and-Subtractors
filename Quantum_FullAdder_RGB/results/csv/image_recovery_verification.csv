@@ -1,2 +1,0 @@
-Image_Pair,Resolution,Total_Pixels,Red_Channel_Match,Green_Channel_Match,Blue_Channel_Match,Fidelity_Percentage,Recovery_MSE,Recovery_PSNR_dB,Recovery_SSIM,Exact_Reversible_Recovery,Status
-image_a.png & image_b.png,64x64,12288,True,True,True,100.0,0.0,100.0,1.0,True,PASS

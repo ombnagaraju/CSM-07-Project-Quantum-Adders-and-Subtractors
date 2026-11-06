@@ -1,6 +1,0 @@
-Comparison,Description,MSE,PSNR_dB,SSIM,Is_Perfect_Reconstruction
-Original_A_vs_Quantized_A,Quantization Loss (8-bit to 4-bit),39.9409,32.12,0.9457,False
-Original_B_vs_Quantized_B,Quantization Loss (8-bit to 4-bit),55.6084,30.68,0.9343,False
-Quantized_A_vs_Quantum_Sum,Addition Transformation,15562.1138,6.21,0.1934,False
-Quantized_A_vs_Quantum_Diff,Subtraction Transformation,9502.145,8.35,0.314,False
-Quantized_A_vs_Recovered_A,Lossless Quantum Recovery ((A+B)-B),0.0,100.0,1.0,True

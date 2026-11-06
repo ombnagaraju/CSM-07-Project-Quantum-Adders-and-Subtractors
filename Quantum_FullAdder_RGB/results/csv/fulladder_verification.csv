@@ -1,9 +1,0 @@
-A,B,Cin,Expected_Sum,Expected_Cout,Baseline_Sum,Baseline_Cout,Baseline_Preserved_A,Baseline_Preserved_B,Baseline_Preserved_Cin,Peres_Sum,Peres_Cout,Peres_Preserved_A,Peres_Garbage_Q1,Opt_Sum,Opt_Cout,Opt_Preserved_A,Opt_Preserved_B,Status
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,PASS
-0,0,1,1,0,1,0,0,0,1,1,0,0,0,1,0,0,0,PASS
-0,1,0,1,0,1,0,0,1,0,1,0,0,1,1,0,0,1,PASS
-0,1,1,0,1,0,1,0,1,1,0,1,0,1,0,1,0,1,PASS
-1,0,0,1,0,1,0,1,0,0,1,0,1,1,1,0,1,0,PASS
-1,0,1,0,1,0,1,1,0,1,0,1,1,1,0,1,1,0,PASS
-1,1,0,0,1,0,1,1,1,0,0,1,1,0,0,1,1,1,PASS
-1,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,1,1,PASS

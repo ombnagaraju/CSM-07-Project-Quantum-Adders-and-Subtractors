@@ -1,3 +1,0 @@
-Circuit,Architecture,Total_Qubits,Input_Qubits,Output_Qubits,Ancilla_Qubits,Garbage_Outputs,CNOT_Count,Toffoli_Count,Total_Gates,Circuit_Depth,Quantum_Cost
-1-Bit Full Adder,Baseline (Toffoli-CNOT),5,3,2,2,0,4,2,6,5,14
-4-Bit Adder-Subtractor,Baseline (Ripple-Carry),18,9,5,4,0,36,14,50,22,106

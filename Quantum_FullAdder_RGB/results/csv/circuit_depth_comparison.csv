@@ -1,6 +1,0 @@
-Circuit_Name,Total_Qubits,Circuit_Depth,Total_Gates
-1-Bit Baseline Full Adder,5,5,6
-1-Bit Peres Full Adder,4,4,4
-1-Bit Optimized Full Adder,4,5,5
-4-Bit Baseline Adder-Subtractor,18,22,50
-4-Bit Optimized Adder-Subtractor,18,20,40

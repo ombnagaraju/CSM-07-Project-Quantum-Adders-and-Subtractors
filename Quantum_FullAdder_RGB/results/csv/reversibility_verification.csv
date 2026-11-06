@@ -1,6 +1,0 @@
-Circuit_Name,Total_Qubits,Tested_Basis_States,Passed_States,Pass_Rate_Pct,Is_Unitary_Reversible,Status
-Baseline_FullAdder_1Bit,5,32,32,100.0,True,PASS
-Peres_FullAdder_1Bit,4,16,16,100.0,True,PASS
-Optimized_FullAdder_1Bit,4,16,16,100.0,True,PASS
-Baseline_4Bit_AdderSubtractor,18,32,32,100.0,True,PASS
-Optimized_4Bit_AdderSubtractor,18,32,32,100.0,True,PASS
