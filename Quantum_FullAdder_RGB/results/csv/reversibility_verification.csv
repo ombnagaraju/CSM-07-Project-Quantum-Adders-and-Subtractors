@@ -1,0 +1,37 @@
+circuit,check,qubits,states_tested,result,detail
+baseline_fulladder,bijection,6,64,pass,64/64 distinct output states (all 64 states)
+baseline_fulladder,inverse_roundtrip,6,64,pass,inverse restored 64/64 states (all 64 states)
+baseline_fulladder,unitary_permutation,6,64,pass,operator is a permutation matrix
+peres_fulladder,bijection,5,32,pass,32/32 distinct output states (all 32 states)
+peres_fulladder,inverse_roundtrip,5,32,pass,inverse restored 32/32 states (all 32 states)
+peres_fulladder,unitary_permutation,5,32,pass,operator is a permutation matrix
+optimized_fulladder,bijection,5,32,pass,32/32 distinct output states (all 32 states)
+optimized_fulladder,inverse_roundtrip,5,32,pass,inverse restored 32/32 states (all 32 states)
+optimized_fulladder,unitary_permutation,5,32,pass,operator is a permutation matrix
+peres_structural_uncompute,bijection,5,32,pass,32/32 distinct output states (all 32 states)
+peres_structural_uncompute,inverse_roundtrip,5,32,pass,inverse restored 32/32 states (all 32 states)
+peres_structural_uncompute,unitary_permutation,5,32,pass,operator is a permutation matrix
+baseline_shared_control,bijection,18,262144,pass,262144/262144 distinct output states (all 262144 states)
+baseline_shared_control,inverse_roundtrip,18,262144,pass,inverse restored 262144/262144 states (all 262144 states)
+baseline_shared_control,unitary_permutation,18,0,skipped,18 qubits exceeds the dense-operator budget
+baseline_adder,bijection,17,131072,pass,131072/131072 distinct output states (all 131072 states)
+baseline_adder,inverse_roundtrip,17,131072,pass,inverse restored 131072/131072 states (all 131072 states)
+baseline_adder,unitary_permutation,17,0,skipped,17 qubits exceeds the dense-operator budget
+baseline_subtractor,bijection,17,131072,pass,131072/131072 distinct output states (all 131072 states)
+baseline_subtractor,inverse_roundtrip,17,131072,pass,inverse restored 131072/131072 states (all 131072 states)
+baseline_subtractor,unitary_permutation,17,0,skipped,17 qubits exceeds the dense-operator budget
+optimized_shared_control,bijection,14,16384,pass,16384/16384 distinct output states (all 16384 states)
+optimized_shared_control,inverse_roundtrip,14,16384,pass,inverse restored 16384/16384 states (all 16384 states)
+optimized_shared_control,unitary_permutation,14,0,skipped,14 qubits exceeds the dense-operator budget
+optimized_adder,bijection,13,8192,pass,8192/8192 distinct output states (all 8192 states)
+optimized_adder,inverse_roundtrip,13,8192,pass,inverse restored 8192/8192 states (all 8192 states)
+optimized_adder,unitary_permutation,13,0,skipped,13 qubits exceeds the dense-operator budget
+optimized_subtractor,bijection,13,8192,pass,8192/8192 distinct output states (all 8192 states)
+optimized_subtractor,inverse_roundtrip,13,8192,pass,inverse restored 8192/8192 states (all 8192 states)
+optimized_subtractor,unitary_permutation,13,0,skipped,13 qubits exceeds the dense-operator budget
+baseline_dual_control_mux,bijection,23,4096,pass,4096/4096 distinct output states (4096 seeded random states of 8388608)
+baseline_dual_control_mux,inverse_roundtrip,23,4096,pass,inverse restored 4096/4096 states (4096 seeded random states of 8388608)
+baseline_dual_control_mux,unitary_permutation,23,0,skipped,23 qubits exceeds the dense-operator budget
+alu_slice_2bit,bijection,23,4096,pass,4096/4096 distinct output states (4096 seeded random states of 8388608)
+alu_slice_2bit,inverse_roundtrip,23,4096,pass,inverse restored 4096/4096 states (4096 seeded random states of 8388608)
+alu_slice_2bit,unitary_permutation,23,0,skipped,23 qubits exceeds the dense-operator budget

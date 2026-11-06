@@ -60,24 +60,6 @@ AER_PIN = "qiskit-aer==0.17.2"
 LSB_QUBIT_INDEX = 0
 
 
-def bits_to_int(bits: str) -> int:
-    """Convert a little-endian bit string ('1010' = A3..A0 stored at q0..q3)."""
-    return int(bits, 2)
-
-
-def int_to_lsb_bits(value: int, width: int) -> str:
-    """Return the bit string for `value` with the LSB first."""
-    return format(value, f"0{width}b")[::-1]
-
-
-def measured_to_int(counts: dict, register: list[int], n_qubits: int) -> int:
-    """Read an integer register out of a Qiskit counts dictionary (single shot)."""
-    # counts keys are printed big-endian: index 0 of the string is q[n_qubits-1]
-    bits = max(counts, key=counts.get)
-    reversed_bits = bits[::-1]
-    return int("".join(reversed_bits[q] for q in register), 2)
-
-
 # ---------------------------------------------------------------------------
 # Circuit sizing
 # ---------------------------------------------------------------------------
@@ -113,6 +95,10 @@ TOPOLOGIES: tuple[TopologySpec, ...] = (
 # Standard-cell basis used for every post-transpilation metric, so all designs
 # are measured in the same gate library (contribution 5).
 TARGET_BASIS_GATES = ["cx", "id", "rz", "sx", "x"]
+# Basis used when a design must keep its reversible block structure, i.e. for
+# exhaustive verification and lookup-table generation. Blocks are decomposed to
+# Toffoli/CNOT/X but never re-synthesised, so truth tables stay comparable.
+LOGICAL_BASIS_GATES = ["ccx", "cx", "x", "id", "measure", "reset"]
 OPTIMIZATION_LEVEL = 1
 LAYOUT_METHOD = "dense"
 
@@ -235,8 +221,58 @@ CSV_NAMES = {
     "image_metrics": "image_metrics.csv",
     "image_recovery": "image_recovery.csv",
     "quantum_lookup": "quantum_lookup_table.csv",
+    "alu_verification": "alu_verification.csv",
+    "zne_failure": "zne_failure_cases.csv",
+    "reproducibility": "reproducibility_manifest.csv",
 }
 
 
 def csv_path(key: str) -> str:
     return os.path.join(CSV_DIR, CSV_NAMES[key])
+
+
+# ---------------------------------------------------------------------------
+# Result file helpers - one writer and one reader for the whole project, so the
+# Streamlit pages and the tests all consume exactly the numbers the simulation
+# produced (contribution 5 and 12).
+# ---------------------------------------------------------------------------
+def write_rows(rows: list[dict], key: str, fieldnames: list | None = None) -> str:
+    """Write a list of dicts to results/csv/<key>, union-ordered columns."""
+    import csv
+
+    if not rows:
+        raise ValueError(f"refusing to write empty CSV for '{key}'")
+    if fieldnames is None:
+        seen: list[str] = []
+        for row in rows:
+            for column in row:
+                if column not in seen:
+                    seen.append(column)
+        fieldnames = seen
+    path = csv_path(key)
+    os.makedirs(CSV_DIR, exist_ok=True)
+    with open(path, "w", newline="", encoding="utf-8") as handle:
+        writer = csv.DictWriter(handle, fieldnames=fieldnames)
+        writer.writeheader()
+        for row in rows:
+            writer.writerow({name: row.get(name, "") for name in fieldnames})
+    return path
+
+
+def read_rows(key: str) -> list[dict]:
+    """Read results/csv/<key> back as a list of dicts, or [] when missing."""
+    import csv
+
+    path = csv_path(key)
+    if not os.path.exists(path):
+        return []
+    with open(path, newline="", encoding="utf-8") as handle:
+        return [dict(row) for row in csv.DictReader(handle)]
+
+
+def write_report(text: str, filename: str) -> str:
+    path = os.path.join(REPORTS_DIR, filename)
+    os.makedirs(REPORTS_DIR, exist_ok=True)
+    with open(path, "w", encoding="utf-8") as handle:
+        handle.write(text)
+    return path

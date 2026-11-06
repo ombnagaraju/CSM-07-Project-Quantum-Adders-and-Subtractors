@@ -1,0 +1,30 @@
+circuit,width,register,qubit,line_position,declared_garbage,require_cleanup,cases,cases_restored,restored_percent,final_values,initial_values,carries_input_information,aer_cases,aer_cases_restored,aer_matches_op_list,note,pass
+baseline_fulladder,1,Prop,3,0,True,False,8,4,50.0,"[0, 1]",[0],True,8,4,True,,True
+peres_fulladder,1,AB,3,0,True,False,8,6,75.0,"[0, 1]",[0],True,8,6,True,,True
+optimized_fulladder,1,(none),-1,-1,False,True,8,8,100.0,[0],[0],False,0,0,,"no helper line outside the output registers, nothing to clean up",True
+peres_structural_uncompute,1,AB,3,0,False,True,8,8,100.0,[0],[0],False,8,8,True,,True
+baseline_shared_control,4,Carry_internal,8,0,True,False,512,256,50.0,"[0, 1]",[0],True,96,48,True,,True
+baseline_shared_control,4,Carry_internal,9,1,True,False,512,256,50.0,"[0, 1]",[0],True,96,51,True,,True
+baseline_shared_control,4,Carry_internal,10,2,True,False,512,256,50.0,"[0, 1]",[0],True,96,52,True,,True
+baseline_shared_control,4,Carry_internal,11,3,True,False,512,256,50.0,"[0, 1]",[0],True,96,55,True,,True
+baseline_adder,4,Carry_internal,8,0,True,False,256,256,100.0,[0],[0],False,96,96,True,,True
+baseline_adder,4,Carry_internal,9,1,True,False,256,192,75.0,"[0, 1]",[0],True,96,96,True,,True
+baseline_adder,4,Carry_internal,10,2,True,False,256,160,62.5,"[0, 1]",[0],True,96,72,True,,True
+baseline_adder,4,Carry_internal,11,3,True,False,256,144,56.25,"[0, 1]",[0],True,96,68,True,,True
+baseline_subtractor,4,Carry_internal,8,0,True,False,256,0,0.0,[1],[0],True,96,0,True,,True
+baseline_subtractor,4,Carry_internal,9,1,True,False,256,64,25.0,"[0, 1]",[0],True,96,0,True,,True
+baseline_subtractor,4,Carry_internal,10,2,True,False,256,96,37.5,"[0, 1]",[0],True,96,24,True,,True
+baseline_subtractor,4,Carry_internal,11,3,True,False,256,112,43.75,"[0, 1]",[0],True,96,44,True,,True
+optimized_shared_control,4,(none),-1,-1,False,True,512,512,100.0,[0],[0],False,0,0,,"no helper line outside the output registers, nothing to clean up",True
+optimized_adder,4,(none),-1,-1,False,True,256,256,100.0,[0],[0],False,0,0,,"no helper line outside the output registers, nothing to clean up",True
+optimized_subtractor,4,(none),-1,-1,False,True,256,256,100.0,[0],[0],False,0,0,,"no helper line outside the output registers, nothing to clean up",True
+baseline_dual_control_mux,4,Carry_internal,8,0,True,False,512,256,50.0,"[0, 1]",[0],True,96,48,True,,True
+baseline_dual_control_mux,4,Carry_internal,9,1,True,False,512,256,50.0,"[0, 1]",[0],True,96,51,True,,True
+baseline_dual_control_mux,4,Carry_internal,10,2,True,False,512,256,50.0,"[0, 1]",[0],True,96,52,True,,True
+baseline_dual_control_mux,4,Carry_internal,11,3,True,False,512,256,50.0,"[0, 1]",[0],True,96,55,True,,True
+baseline_dual_control_mux,4,S_add,17,0,False,True,512,512,100.0,"[0, 1]","[0, 1]",True,96,96,True,,True
+baseline_dual_control_mux,4,S_sub,18,0,False,True,512,512,100.0,"[0, 1]","[0, 1]",True,96,96,True,,True
+baseline_dual_control_mux,4,Ctrl_anc,19,0,False,True,512,512,100.0,[0],[0],False,96,96,True,,True
+baseline_dual_control_mux,4,Ctrl_anc,20,1,False,True,512,512,100.0,[0],[0],False,96,96,True,,True
+baseline_dual_control_mux,4,Ctrl_anc,21,2,False,True,512,512,100.0,[0],[0],False,96,96,True,,True
+baseline_dual_control_mux,4,Ctrl_anc,22,3,False,True,512,512,100.0,[0],[0],False,96,96,True,,True
