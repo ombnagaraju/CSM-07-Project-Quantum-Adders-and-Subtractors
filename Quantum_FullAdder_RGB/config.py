@@ -113,6 +113,10 @@ TOPOLOGIES: tuple[TopologySpec, ...] = (
 # Standard-cell basis used for every post-transpilation metric, so all designs
 # are measured in the same gate library (contribution 5).
 TARGET_BASIS_GATES = ["cx", "id", "rz", "sx", "x"]
+# Basis used when a design must keep its reversible block structure, i.e. for
+# exhaustive verification and lookup-table generation. Blocks are decomposed to
+# Toffoli/CNOT/X but never re-synthesised, so truth tables stay comparable.
+LOGICAL_BASIS_GATES = ["ccx", "cx", "x", "id", "measure", "reset"]
 OPTIMIZATION_LEVEL = 1
 LAYOUT_METHOD = "dense"
 
