@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Editors
+.vscode/
+.idea/
+
+# Local secrets and OS junk
+.env
+*.local
+Thumbs.db
+.DS_Store
+
+# Regeneratable run artefacts kept out of history except the curated ones
+results/logs/*.tmp
+results/processed_images/tmp_*
