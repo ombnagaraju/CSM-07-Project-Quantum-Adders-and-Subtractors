@@ -1,0 +1,19 @@
+# Core quantum stack (pinned, see requirements.lock.txt for the full list)
+qiskit==2.5.2
+qiskit-aer==0.17.2
+
+# Numerics and plotting
+numpy
+scipy
+pandas
+matplotlib
+
+# Image processing
+Pillow
+scikit-image
+
+# Application
+streamlit
+
+# Testing
+pytest
