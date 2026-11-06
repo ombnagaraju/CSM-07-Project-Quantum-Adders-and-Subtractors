@@ -1,0 +1,9 @@
+style,cx_gates,x_gates,h_gates,t_gates,tdg_gates,phase_gates,t_equivalent_gates,single_qubit_gates,total_gates,depth,t_depth,unitary_fidelity,unitary_equivalent,backend,cx_error,single_qubit_error,modelled_success_probability,modelled_error_probability,selected_for_backend
+low_depth,6,0,2,4,3,0,7,9,15,11,4,1.0,True,ibm_fake_linen,0.003,0.0002,0.980368032797,0.019631967203,True
+low_t_count,10,12,2,0,0,7,7,21,31,25,5,1.0,True,ibm_fake_linen,0.003,0.0002,0.966334230545,0.033665769455,False
+low_depth,6,0,2,4,3,0,7,9,15,11,4,1.0,True,ibm_fake_gridm,0.0075,0.0005,0.951542693189,0.048457306811,True
+low_t_count,10,12,2,0,0,7,7,21,31,25,5,1.0,True,ibm_fake_gridm,0.0075,0.0005,0.917791268953,0.082208731047,False
+low_depth,6,0,2,4,3,0,7,9,15,11,4,1.0,True,ibm_fake_heavyhex,0.0045,0.0003,0.970677169711,0.029322830289,True
+low_t_count,10,12,2,0,0,7,7,21,31,25,5,1.0,True,ibm_fake_heavyhex,0.0045,0.0003,0.949896260363,0.050103739637,False
+low_depth,6,0,2,4,3,0,7,9,15,11,4,1.0,True,noisy_ideal_1e3,0.001,0.0001,0.993120724295,0.006879275705,True
+low_t_count,10,12,2,0,0,7,7,21,31,25,5,1.0,True,noisy_ideal_1e3,0.001,0.0001,0.987967863739,0.012032136261,False

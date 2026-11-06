@@ -1,0 +1,10 @@
+pair,depth_kind,topology,baseline_depth,optimized_depth,absolute_reduction,reduction_percent,acceptance_pass
+fulladder,logical,,6,5,1,16.67,True
+fulladder,decomposed_clifford_t,,24,23,1,4.17,True
+fulladder,transpiled,line_12,51,46,5,9.8,True
+adder4_add,logical,,8,6,2,25.0,True
+adder4_add,decomposed_clifford_t,,50,50,0,0.0,False
+adder4_add,transpiled,line_18,161,137,24,14.91,True
+adder4_shared,logical,,11,9,2,18.18,True
+adder4_shared,decomposed_clifford_t,,52,52,0,0.0,False
+adder4_shared,transpiled,line_18,206,178,28,13.59,True

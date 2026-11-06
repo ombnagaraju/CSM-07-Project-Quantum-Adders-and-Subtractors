@@ -83,13 +83,22 @@ class TopologySpec:
     heavy_hex_d: int = 0
 
 
+# Sizes are calibrated to the designs that have to fit on them: the 1-bit full
+# adders (5-6 qubits), the 4-bit shared adder-subtractor (14 qubits optimised,
+# 18 qubits baseline) and the 4-bit dual multiplexer (23 qubits). The heavy-hex
+# entry matches qiskit.transpiler.CouplingMap.from_heavy_hex(3), which has 19
+# qubits in Qiskit 2.5.2.
 TOPOLOGIES: tuple[TopologySpec, ...] = (
     TopologySpec("line_5", "line", 5),
     TopologySpec("line_12", "line", 12),
+    TopologySpec("line_18", "line", 18),
+    TopologySpec("line_24", "line", 24),
     TopologySpec("grid_3x4", "grid", 12, grid_rows=3, grid_cols=4),
     TopologySpec("grid_4x4", "grid", 16, grid_rows=4, grid_cols=4),
-    TopologySpec("heavy_hex_3", "heavy_hex", 20, heavy_hex_d=3),
-    TopologySpec("all_to_all", "all_to_all", 12),
+    TopologySpec("grid_4x5", "grid", 20, grid_rows=4, grid_cols=5),
+    TopologySpec("heavy_hex_3", "heavy_hex", 19, heavy_hex_d=3),
+    TopologySpec("all_to_all_12", "all_to_all", 12),
+    TopologySpec("all_to_all_18", "all_to_all", 18),
 )
 
 # Standard-cell basis used for every post-transpilation metric, so all designs
@@ -136,12 +145,31 @@ def get_backend_profile(name: str) -> BackendProfile:
 
 # Decomposition choices for the adder carry chain (contribution 4).
 DECOMPOSITION_STYLES = ("low_depth", "low_t_count")
-# T-count of one Toffoli in each style, from standard magic-state constructions.
-TOFFOLI_T_COUNT = {"low_depth": 7, "low_t_count": 4}
+# Measured T-equivalent gate count of one Toffoli under each implemented
+# decomposition (transpilation/decomposition_selector.py re-measures these).
+#
+# low_depth   : qiskit.synthesis.multi_controlled.synth_mcx_noaux_v24(2),
+#               the standard 15-gate Clifford+T circuit (4 T, 3 T-dagger, 6
+#               CNOT, 2 H), T-depth 4.
+# low_t_count : synth_mcx_noaux_hp24(2), the phase-polynomial route. It uses
+#               seven p(+/- pi/4) gates, and p(pi/4) is exactly T, so its
+#               T-equivalent count is 7 as well. Qiskit 2.5.2 exposes no
+#               4-T ancilla-assisted Toffoli (all clean/dirty-ancilla synthesis
+#               functions collapse to a single ccx at two controls), therefore
+#               the lower theoretical cost is NOT claimed here. The measured
+#               number is recorded instead and the selector is allowed to
+#               reject this style on the assembled evidence.
+TOFFOLI_T_COUNT = {"low_depth": 7, "low_t_count": 7}
+TOFFOLI_T_DEPTH = {"low_depth": 4, "low_t_count": 5}
 # Relative error weight of a non-Clifford T gate versus a Clifford two-qubit gate.
 NON_CLIFFORD_PENALTY = 500.0
 # Logical error rate target for the post-selected fault-tolerant estimate.
 FT_TARGET_LOGICAL_ERROR = 1e-3
+# Surface-code estimate inputs. These are modelling assumptions, not hardware
+# measurements, and every consumer labels its output as an estimate.
+FT_PHYSICAL_ERROR = 1e-3
+FT_THRESHOLD_ERROR = 1e-2
+FT_ERROR_PREFACTOR = 0.1
 
 
 # ---------------------------------------------------------------------------
@@ -168,8 +196,27 @@ ENERGY_MODEL_NOTE = (
 
 
 # ---------------------------------------------------------------------------
-# NCV-L quantum cost model (phase 5 of the original spec)
+# Quantum cost model (contribution 5, phase 5 of the original spec)
 # ---------------------------------------------------------------------------
+# The project uses the NCV-L convention: NOT, CNOT, controlled-V and
+# controlled-V-dagger are the four elementary gates and each costs 1.
+#
+#   NOT (x)         1
+#   CNOT (cx)       1
+#   controlled-V    1
+#   controlled-V-dagger 1
+#
+# Larger blocks are priced by their number of elementary gates only; a block and
+# its decomposition are never counted together. Both decompositions below were
+# re-checked against an exact 8x8 unitary in tests/test_circuit_utils.py:
+#
+#   Toffoli = CX(a,b) CV(a,c) CVdg(b,c) CX(a,b) CV(b,c)          -> 5
+#   Peres   = CV(a,c) CV(b,c) CX(a,b) CVdg(b,c)                  -> 4
+#
+# The target basis used after transpilation is priced with the same "one
+# elementary gate = one unit" rule; an identity is free because it performs no
+# operation. This keeps the post-transpilation column comparable with the
+# logical column (contribution 5: one metric code, one cost convention).
 @dataclass(frozen=True)
 class GateCost:
     name: str
@@ -182,15 +229,19 @@ NCV_COSTS: dict[str, GateCost] = {
     "cx": GateCost("cx", 1),
     "cv": GateCost("cv", 1),
     "cvdg": GateCost("cvdg", 1),
-    "ccx": GateCost("ccx", 5, ("cv", "cv", "cx", "cvdg", "cx")),
-    "peres": GateCost("peres", 4, ("ccx", "cx")),
+    "ccx": GateCost("ccx", 5, ("cx", "cv", "cvdg", "cx", "cv")),
+    "peres": GateCost("peres", 4, ("cv", "cv", "cx", "cvdg")),
     "rzz": GateCost("rzz", 4, ("cx", "rz", "cx")),
+    # TARGET_BASIS_GATES entries, for post-transpilation cost only.
+    "rz": GateCost("rz", 1),
+    "sx": GateCost("sx", 1),
+    "id": GateCost("id", 0),
 }
 QUANTUM_COST_MODEL_NAME = "NCV-L"
 
 
 def gate_quantum_cost(name: str) -> int:
-    """Return the NCV-L cost of one composite gate name."""
+    """Return the NCV-L cost of one gate name (blocks and basis gates)."""
     if name in NCV_COSTS:
         return NCV_COSTS[name].cost
     raise KeyError(f"No quantum cost defined for gate '{name}'. "

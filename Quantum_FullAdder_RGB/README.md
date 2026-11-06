@@ -42,8 +42,10 @@ hardware result is claimed.**
 2. **Post-transpilation benchmarking across topologies** — line, grid and heavy-hex.
 3. **Scaling law for cost versus bit-width** — fitted gate count and depth against `n`
    with confidence intervals.
-4. **Hardware-aware decomposition choice** — low-depth versus low-T-count from backend
-   error rates, with measured fidelity difference.
+4. **Hardware-aware decomposition choice** — low-depth versus low-T-count Toffoli costed
+   from backend error rates. Measured: Qiskit 2.5.2 ANC-clean syntheses (v24 and hp24) both
+   need 7 T-equivalent gates, so the low-T variant gives no T saving and the selector
+   rejects it in favour of the strictly shallower low-depth synthesis.
 5. **Fair comparison protocol** — one gate library, one metric code, one topology.
 6. **Garbage minimisation by uncomputation.**
 7. **Fault-tolerant cost estimate** — T-count and Toffoli depth.

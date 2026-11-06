@@ -1,0 +1,15 @@
+style,metric,slope,intercept,r_squared,slope_stderr,slope_ci_low,slope_ci_high,n_points
+baseline,qubits,4.0,1.0,1.0,0.0,4.0,4.0,8
+baseline,total_gates,6.0,-0.0,1.0,0.0,6.0,6.0,8
+baseline,quantum_cost,14.0,-0.0,1.0,0.0,14.0,14.0,8
+baseline,logical_depth,1.0,4.0,1.0,0.0,1.0,1.0,8
+baseline,transpiled_cx_gates,126.035714,-172.035714,0.96055,10.427532,100.520463,151.550965,8
+baseline,transpiled_total_gates,145.035714,-172.035714,0.969918,10.427532,119.520463,170.550965,8
+baseline,transpiled_depth,38.880952,4.285714,0.99901,0.499622,37.658422,40.103483,8
+optimized,qubits,3.0,1.0,1.0,0.0,3.0,3.0,8
+optimized,total_gates,3.0,-0.0,1.0,0.0,3.0,3.0,8
+optimized,quantum_cost,9.0,-0.0,1.0,0.0,9.0,9.0,8
+optimized,logical_depth,1.0,2.0,1.0,0.0,1.0,1.0,8
+optimized,transpiled_cx_gates,75.285714,-86.785714,0.983334,4.001275,65.494946,85.076482,8
+optimized,transpiled_total_gates,94.285714,-86.785714,0.98931,4.001275,84.494946,104.076482,8
+optimized,transpiled_depth,33.916667,1.5,0.999988,0.048113,33.79894,34.034394,8
