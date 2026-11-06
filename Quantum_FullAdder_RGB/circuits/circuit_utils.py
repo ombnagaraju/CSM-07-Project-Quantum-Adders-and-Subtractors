@@ -11,7 +11,7 @@ from __future__ import annotations
 
 
 from collections import Counter
-from dataclasses import dataclass, field, replace
+from dataclasses import dataclass, field
 from typing import Iterable, Sequence
 
 import numpy as np
@@ -288,13 +288,6 @@ def output_count(spec: CircuitSpec) -> int:
     return sum(len(spec.registers[name]) for name in spec.outputs)
 
 
-def unused_qubits(spec: CircuitSpec) -> list:
-    seen: set[int] = set()
-    for indices in spec.registers.values():
-        seen.update(indices)
-    return [q for q in range(spec.n_qubits) if q not in seen]
-
-
 def spec_metrics(spec: CircuitSpec) -> dict:
     counts = logical_counts(spec)
     return {
@@ -318,7 +311,10 @@ def spec_metrics(spec: CircuitSpec) -> dict:
 
 
 def to_qasm(spec: CircuitSpec) -> str:
-    return spec.build(measure=False).qasm()
+    """OpenQASM 3 text of the design (QuantumCircuit.qasm() was removed in 2.x)."""
+    from qiskit.qasm3 import dumps
+
+    return dumps(spec.build(measure=False))
 
 
 def save_qasm(spec: CircuitSpec, filename: str) -> str:
@@ -350,11 +346,62 @@ def draw_circuit(spec: CircuitSpec, filename: str, wide: bool = True) -> str:
 # ---------------------------------------------------------------------------
 # Classical (exact) reversible simulation of the op list
 # ---------------------------------------------------------------------------
+def inverse_ops(ops: Sequence[Op]) -> list:
+    """The exact inverse op list: reverse order, each block inverted.
+
+    X, CNOT and Toffoli are self-inverse; a Peres block inverts to peres_dg.
+    Mid-circuit measurement, feed-forward and reset have no unitary inverse, so
+    designs using them are checked by permutation instead.
+    """
+    out: list[Op] = []
+    for op in reversed(list(ops)):
+        kind = op[0]
+        if kind in ("measure", "cond_x", "reset"):
+            raise ValueError(f"'{kind}' has no unitary inverse")
+        out.append(("peres_dg" if kind == "peres" else
+                    "peres" if kind == "peres_dg" else kind, *op[1:]))
+    return out
+
+
+def state_batch(spec: CircuitSpec, lines: Sequence[int],
+                values: np.ndarray) -> np.ndarray:
+    """Bit matrix (len(values), n_qubits) holding the basis states in `values`."""
+    state = np.zeros((len(values), spec.n_qubits), dtype=np.uint8)
+    for q_index, q in enumerate(lines):
+        state[:, q] = (values >> q_index) & 1
+    return state
+
+
+def batch_values(lines: Sequence[int], state: np.ndarray) -> np.ndarray:
+    """Integer value of `lines` for every row of a bit matrix."""
+    out = np.zeros(len(state), dtype=np.int64)
+    for q_index, q in enumerate(lines):
+        out += state[:, q].astype(np.int64) << q_index
+    return out
+
+
+def roundtrip_is_identity(spec: CircuitSpec, active_qubits: Sequence[int] | None = None,
+                          values: np.ndarray | None = None) -> tuple:
+    """Run the design then its exact inverse over `values` (default: every state).
+
+    Returns (all_states_restored, states_restored, states_tested). A design with
+    measurement or reset lines has no unitary inverse, so those raise ValueError.
+    """
+    lines = list(range(spec.n_qubits)) if active_qubits is None else list(active_qubits)
+    if values is None:
+        values = np.arange(1 << len(lines), dtype=np.int64)
+    start = state_batch(spec, lines, values)
+    state = apply_ops_to_bits(spec.all_ops(), start)
+    state = apply_ops_to_bits(inverse_ops(spec.all_ops()), state)
+    restored = int((state == start).all(axis=1).sum())
+    return restored == len(values), restored, len(values)
+
+
 def apply_ops_to_bits(ops: Sequence[Op], bits: np.ndarray) -> np.ndarray:
     """Apply the op list to a batch of bit-vectors, shape (n_cases, n_qubits).
 
     These circuits contain only X, CNOT and Toffoli-type blocks, so their action
-    on computational-basis states is an exact classical reversible map.  This is
+    on computational-basis states is an exact classical reversible map. This is
     the fast path used for permutation and garbage analysis; :func:`run_cases`
     below re-checks the same truth tables on the Qiskit simulator.
     """
@@ -395,32 +442,27 @@ def bits_to_value(bits: Sequence[int], qubits: Sequence[int]) -> int:
     return sum(int(bits[k]) << k for k, q in enumerate(qubits))
 
 
-def initial_ops(values: dict) -> list:
-    """X ops that prepare a basis state given {qubit: 0/1}."""
-    return [x(q) for q, bit in sorted(values.items()) if bit]
+def permutation_map(spec: CircuitSpec, active_qubits: Sequence[int],
+                    values: np.ndarray | None = None) -> tuple:
+    """Exact truth permutation of `active_qubits`: (input values, output values).
 
-
-def permutation_map(spec: CircuitSpec, active_qubits: Sequence[int]) -> np.ndarray:
-    """Exact truth permutation of `active_qubits` through the circuit.
-
-    Returns an int array where index is the input value on `active_qubits` and
-    the entry is the output value on the same lines (other lines stay 0).
+    Rows are aligned, so entry k of the second array is the value the circuit
+    reports on `active_qubits` when those lines hold entry k of the first array.
+    `values` defaults to every state of the subspace.
     """
-    n = len(active_qubits)
-    size = 1 << n
-    state = np.zeros((size, spec.n_qubits), dtype=np.uint8)
-    for q_index, q in enumerate(active_qubits):
-        state[:, q] = (np.arange(size) >> q_index) & 1
-    out = apply_ops_to_bits(spec.all_ops(), state)
-    result = np.zeros(size, dtype=np.int64)
-    for q_index, q in enumerate(active_qubits):
-        result += out[:, q].astype(np.int64) << q_index
-    return result
+    lines = list(active_qubits)
+    if values is None:
+        values = np.arange(1 << len(lines), dtype=np.int64)
+    out = apply_ops_to_bits(spec.all_ops(), state_batch(spec, lines, values))
+    return values, batch_values(lines, out)
 
 
-def is_bijective(spec: CircuitSpec, active_qubits: Sequence[int]) -> bool:
-    table = permutation_map(spec, active_qubits)
-    return len(np.unique(table)) == len(table)
+def is_bijective(spec: CircuitSpec, active_qubits: Sequence[int],
+                 values: np.ndarray | None = None) -> tuple:
+    """(one_to_one, distinct_output_count) over `values` or the whole subspace."""
+    inputs, outputs = permutation_map(spec, active_qubits, values)
+    distinct = int(len(np.unique(outputs)))
+    return distinct == len(inputs), distinct
 
 
 def garbage_lines(spec: CircuitSpec, active_qubits: Sequence[int]) -> dict:
@@ -548,6 +590,35 @@ def case_dictionary(spec: CircuitSpec, values: dict) -> dict:
         for qubit, bit in value_to_bits(int(value), spec.registers[name]).items():
             state[qubit] = bit
     return state
+
+
+def op_list_lines(spec: CircuitSpec, cases_values: list[dict]) -> np.ndarray:
+    """Final bit of every qubit for a batch of {register_name: integer} cases.
+
+    Shape (n_cases, n_qubits). This is the raw material for the per-line ancilla
+    and garbage studies, where register-level integers hide which line is dirty.
+    """
+    bits = np.zeros((len(cases_values), spec.n_qubits), dtype=np.uint8)
+    for row, values in enumerate(cases_values):
+        for qubit, bit in case_dictionary(spec, values).items():
+            bits[row, qubit] = bit
+    return apply_ops_to_bits(spec.all_ops(), bits)
+
+
+def op_list_results(spec: CircuitSpec, cases_values: list[dict]) -> list[dict]:
+    """Exact register values from the reversible op list, no simulator involved.
+
+    `cases_values` is a list of {register_name: integer}. Returns one
+    {register_name: integer} dict per case. This is the fast, memory-flat path
+    used for exhaustive checks on wide designs; :func:`run_cases` is the Qiskit
+    Aer confirmation of the same cases.
+    """
+    if not cases_values:
+        return []
+    out = op_list_lines(spec, cases_values)
+    return [{name: bits_to_value(out[row, indices], indices)
+             for name, indices in spec.registers.items()}
+            for row in range(len(cases_values))]
 
 
 def format_metrics_table(rows: list[dict], columns: Sequence[str]) -> str:

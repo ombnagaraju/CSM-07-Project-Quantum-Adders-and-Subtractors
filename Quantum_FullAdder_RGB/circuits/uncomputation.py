@@ -20,7 +20,6 @@ Measurement-based uncomputation
 from __future__ import annotations
 
 from circuits import circuit_utils as cu
-from circuits.optimized_fulladder import build_optimized_fulladder
 from circuits.peres_fulladder import build_peres_fulladder
 
 
@@ -93,57 +92,3 @@ def measurement_based_uncompute(spec: cu.CircuitSpec, method: str = "conditional
                "measurement feed-forward; arithmetic outputs are unchanged for "
                "basis-state inputs."),
     )
-
-
-def uncompute_comparison(width: int = 4) -> list:
-    """Before/after rows for the garbage study, one per design and method."""
-    from circuits.parametrized_nbit_adder import build_nbit_design
-
-    designs = {
-        "baseline_shared": build_nbit_design(width, "baseline", "shared"),
-        "peres_fulladder": build_peres_fulladder(),
-        "peres_structural_uncompute": build_peres_with_structural_uncomputation(),
-        "optimized_fulladder": build_optimized_fulladder(),
-    }
-    rows: list[dict] = []
-    for label, spec in designs.items():
-        before = cu.spec_metrics(spec)
-        row = {
-            "design": label,
-            "method": "none",
-            "qubits": before["qubits"],
-            "ancilla_qubits": before["ancilla_qubits"],
-            "garbage_qubits": before["garbage_qubits"],
-            "total_gates": before["total_gates"],
-            "quantum_cost": before["quantum_cost"],
-            "logical_depth": before["logical_depth"],
-            "measure_ops": before["measure_ops"],
-            "reset_ops": before["reset_ops"],
-        }
-        rows.append(row)
-        if before["garbage_qubits"]:
-            for method in ("conditional", "reset"):
-                after_spec = measurement_based_uncompute(spec, method)
-                after = cu.spec_metrics(after_spec)
-                rows.append({
-                    "design": label,
-                    "method": f"measurement_based_{method}",
-                    "qubits": after["qubits"],
-                    "ancilla_qubits": after["ancilla_qubits"],
-                    "garbage_qubits": after["garbage_qubits"],
-                    "total_gates": after["total_gates"],
-                    "quantum_cost": after["quantum_cost"],
-                    "logical_depth": after["logical_depth"],
-                    "measure_ops": after["measure_ops"],
-                    "reset_ops": after["reset_ops"],
-                })
-    for row in rows:
-        reference = next(r for r in rows if r["design"] == row["design"]
-                         and r["method"] == "none")
-        for metric in ("garbage_qubits", "ancilla_qubits", "total_gates",
-                       "quantum_cost", "logical_depth"):
-            base = reference[metric]
-            row[f"{metric}_delta"] = row[metric] - base
-            row[f"{metric}_delta_percent"] = (
-                round((row[metric] - base) / base * 100.0, 2) if base else 0.0)
-    return rows

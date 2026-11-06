@@ -107,7 +107,7 @@ def build_alu_slice_2bit(uncompute_decode: bool = True,
     registers = {
         "A": A, "B": B, "R": R, "Cout": [chain[n]],
         "Carry_internal": chain[:n], "AND_internal": and_r, "OR_internal": or_r,
-        "S": [S1, S0], "Op_decode": op, "Ctrl_anc": pool,
+        "S": [S0, S1], "Op_decode": op, "Ctrl_anc": pool,
     }
     return cu.CircuitSpec(
         name=name or f"alu_slice_2bit{'_uncomputed' if uncompute_decode else ''}",
@@ -140,22 +140,17 @@ def all_cases() -> list:
     return [(a, b, code) for a in range(4) for b in range(4) for code in range(4)]
 
 
+def cases_values() -> list:
+    """Every (A, B, select code) setting as register values."""
+    return [{"A": a, "B": b, "S": code} for a, b, code in all_cases()]
+
+
 def run_expected_check(spec: cu.CircuitSpec) -> list:
     """Exact op-list comparison of every 64 (A, B, code) case."""
-    import numpy as np
-
     failures: list = []
-    for a, b, code in all_cases():
-        bits = np.zeros((1, spec.n_qubits), dtype=np.uint8)
-        for q, v in cu.value_to_bits(a, spec.registers["A"]).items():
-            bits[0, q] = v
-        for q, v in cu.value_to_bits(b, spec.registers["B"]).items():
-            bits[0, q] = v
-        s_bits = spec.registers["S"]           # [S1, S0], S1 is the high bit
-        bits[0, s_bits[0]] = (code >> 1) & 1
-        bits[0, s_bits[1]] = code & 1
-        out = cu.apply_ops_to_bits(spec.all_ops(), bits)[0]
-        got = int(sum(int(out[q]) << k for k, q in enumerate(spec.registers["R"])))
+    for (a, b, code), measured in zip(all_cases(),
+                                      cu.op_list_results(spec, cases_values())):
+        got = int(measured["R"])
         if got != expected(a, b, code):
             failures.append((a, b, OPERATIONS[code], got, expected(a, b, code)))
     return failures

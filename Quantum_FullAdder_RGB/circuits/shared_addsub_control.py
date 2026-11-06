@@ -32,7 +32,9 @@ from circuits.parametrized_nbit_adder import (
     combined_metrics,
 )
 
-APPROACHES = ("separate_pair", "shared_control", "dual_control_mux")
+def saving_percent(base: float, value: float) -> float:
+    """Positive when `value` is smaller than `base`, the project-wide convention."""
+    return round((base - value) / base * 100.0, 2) if base else 0.0
 
 
 def build_shared_control_addsub(width: int = 4, style: str = "optimized") -> cu.CircuitSpec:
@@ -81,7 +83,13 @@ def design_footprint(width: int = 4, style: str = "baseline") -> dict:
 
 
 def savings_table(width: int = 4, styles=("baseline", "optimized")) -> list:
-    """Percentage saving of the single shared control qubit vs separate units."""
+    """Percentage saving of the single shared control qubit vs separate units.
+
+    Two depth references are reported because they answer different questions:
+    ``logical_depth`` compares one operation at a time (the pair's deeper unit),
+    while ``logical_depth_serial`` compares a chip that has to run both
+    operations back-to-back on separate operand copies.
+    """
     out: list[dict] = []
     for style in styles:
         rows = design_footprint(width, style)
@@ -92,12 +100,12 @@ def savings_table(width: int = 4, styles=("baseline", "optimized")) -> list:
             entry = {"style": style, "width": width, "approach": approach,
                      "reference": "separate_pair"}
             for metric in ("qubits", "ancilla_qubits", "total_gates", "quantum_cost",
-                           "logical_depth", "garbage_qubits"):
+                           "logical_depth", "garbage_qubits", "logical_depth_serial",
+                           "qubits_raw"):
                 entry[f"{metric}_shared"] = row[metric]
                 entry[f"{metric}_reference"] = reference[metric]
-                base = reference[metric]
-                entry[f"{metric}_saving_percent"] = (
-                    round((base - row[metric]) / base * 100.0, 2) if base else 0.0)
+                entry[f"{metric}_saving_percent"] = saving_percent(
+                    reference[metric], row[metric])
             out.append(entry)
     return out
 
@@ -109,8 +117,6 @@ def shared_matches_pair(width: int = 4, style: str = "baseline") -> dict:
     covered without a 2^(3n+2) statevector. verify_control_savings.py repeats
     the same comparison on the Qiskit simulator.
     """
-    import numpy as np
-
     limit = 1 << width
     shared = build_shared_control_addsub(width, style)
     pair = build_adder_pair(width, style)
@@ -133,17 +139,7 @@ def read_result(spec: cu.CircuitSpec, values: dict) -> tuple:
     Returns (result, carry_out, operands_preserved) so a comparison checks that
     the arithmetic agrees *and* that the inputs survived.
     """
-    import numpy as np
-
-    bits = np.zeros((1, spec.n_qubits), dtype=np.uint8)
-    for name, value in values.items():
-        for qubit, bit in cu.value_to_bits(int(value), spec.registers[name]).items():
-            bits[0, qubit] = bit
-    out = cu.apply_ops_to_bits(spec.all_ops(), bits)[0]
-    result = int(sum(int(out[q]) << k for k, q in enumerate(spec.registers["R"])))
-    carry = int(out[spec.registers["Cout"][0]])
-    operands_ok = all(int(out[q]) == bit
-                      for name in ("A", "B")
-                      for q, bit in cu.value_to_bits(values[name],
-                                                     spec.registers[name]).items())
-    return result, carry, operands_ok
+    measured = cu.op_list_results(spec, [values])[0]
+    operands_ok = all(int(measured[name]) == int(values[name])
+                      for name in ("A", "B") if name in values)
+    return int(measured["R"]), int(measured["Cout"]), operands_ok

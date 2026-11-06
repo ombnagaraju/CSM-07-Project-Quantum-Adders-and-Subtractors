@@ -1,0 +1,3 @@
+circuit,uncompute_decode,qubits,input_qubits,output_qubits,ancilla_qubits,garbage_qubits,x_gates,cx_gates,ccx_gates,peres_gates,total_gates,measure_ops,cond_x_ops,reset_ops,logical_depth,quantum_cost,garbage_lines,total_gates_delta,total_gates_delta_percent,quantum_cost_delta,quantum_cost_delta_percent,logical_depth_delta,logical_depth_delta_percent,garbage_qubits_delta,garbage_qubits_delta_percent,ancilla_qubits_delta,ancilla_qubits_delta_percent
+alu_slice_2bit_uncomputed,True,23,6,2,16,6,16,15,64,0,95,0,0,0,66,351,"AND_internal,OR_internal,Carry_internal",0,0.0,0,0.0,0,0.0,0,0.0,0,0.0
+alu_slice_2bit_dirty_decode,False,23,6,2,16,10,8,15,60,0,83,0,0,0,57,323,"AND_internal,OR_internal,Carry_internal,Op_decode",-12,-12.63,-28,-7.98,-9,-13.64,4,66.67,0,0.0
