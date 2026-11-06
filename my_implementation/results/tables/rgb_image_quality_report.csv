@@ -1,0 +1,10 @@
+Metric,Value
+Image Width,320
+Image Height,320
+Colour Channels,RGB
+Maximum Pixel Difference,0
+Mean Pixel Difference,0.0
+MSE,0.0
+PSNR,inf
+SSIM,1.0
+Exact Recovery,True
