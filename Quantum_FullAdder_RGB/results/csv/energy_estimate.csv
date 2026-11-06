@@ -1,0 +1,8 @@
+circuit,family,role,total_gates,measure_ops,cond_x_ops,reset_ops,irreversible_erasures,landauer_bound_joules,estimated_switching_joules,model_note
+baseline_fulladder,fulladder,baseline,6,0,0,0,0,0.0,1.7225873310472342e-22,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.
+optimized_fulladder,fulladder,optimized,5,0,0,0,0,0.0,1.4354894425393621e-22,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.
+baseline_add_4bit,adder4_add,baseline,24,0,0,0,0,0.0,6.890349324188937e-22,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.
+optimized_add_4bit,adder4_add,optimized,12,0,0,0,0,0.0,3.4451746620944684e-22,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.
+baseline_shared_4bit,adder4_shared,baseline,33,0,0,0,0,0.0,9.474230320759789e-22,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.
+optimized_shared_4bit,adder4_shared,optimized,21,0,0,0,0,0.0,6.02905565866532e-22,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.
+peres_fulladder,fulladder,reference,3,0,0,0,0,0.0,8.612936655236171e-23,Landauer-bound numbers are analytic estimates from the measured bit-flip count. No hardware energy measurement was performed and none is claimed.

@@ -1,0 +1,4 @@
+pair,model,baseline_circuit,optimized_circuit,baseline_cost,optimized_cost,absolute_reduction,reduction_percent,acceptance_pass
+fulladder,NCV-L,baseline_fulladder,optimized_fulladder,14,13,1,7.14,True
+adder4_add,NCV-L,baseline_add_4bit,optimized_add_4bit,56,36,20,35.71,True
+adder4_shared,NCV-L,baseline_shared_4bit,optimized_shared_4bit,65,45,20,30.77,True

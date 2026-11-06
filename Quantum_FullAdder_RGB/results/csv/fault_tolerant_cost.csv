@@ -1,0 +1,13 @@
+pair,role,circuit,style,logical_qubits,toffoli_blocks,toffoli_depth,t_per_toffoli,t_count,t_depth_estimate,clifford_blocks,code_distance,physical_qubits_estimate,magic_states,estimate_note
+fulladder,baseline,baseline_fulladder,low_depth,6,2,4,7,14,16,4,3,108,14,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+fulladder,baseline,baseline_fulladder,low_t_count,6,2,4,7,14,20,4,3,108,14,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+fulladder,optimized,optimized_fulladder,low_depth,5,2,4,7,14,16,3,3,90,14,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+fulladder,optimized,optimized_fulladder,low_t_count,5,2,4,7,14,20,3,3,90,14,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_add,baseline,baseline_add_4bit,low_depth,17,8,6,7,56,24,16,3,306,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_add,baseline,baseline_add_4bit,low_t_count,17,8,6,7,56,30,16,3,306,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_add,optimized,optimized_add_4bit,low_depth,13,8,5,7,56,20,4,3,234,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_add,optimized,optimized_add_4bit,low_t_count,13,8,5,7,56,25,4,3,234,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_shared,baseline,baseline_shared_4bit,low_depth,18,8,8,7,56,32,25,3,324,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_shared,baseline,baseline_shared_4bit,low_t_count,18,8,8,7,56,40,25,3,324,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_shared,optimized,optimized_shared_4bit,low_depth,14,8,7,7,56,28,13,3,252,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"
+adder4_shared,optimized,optimized_shared_4bit,low_t_count,14,8,7,7,56,35,13,3,252,56,"p=0.001, p_th=0.01, target=0.001; surface-code data qubits only"

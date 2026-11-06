@@ -1,0 +1,4 @@
+circuit,family,role,qubits,input_qubits,output_qubits,ancilla_qubits,garbage_qubits,x_gates,cx_gates,ccx_gates,peres_gates,total_gates,measure_ops,cond_x_ops,reset_ops,logical_depth,quantum_cost,toffoli_equivalent,other_gates,decomposed_gates,decomposed_cx_gates,decomposed_x_gates,decomposed_h_gates,decomposed_t_gates,decomposed_other_gates,decomposed_depth
+optimized_fulladder,fulladder,optimized,5,3,2,2,0,0,3,2,0,5,0,0,0,5,13,2,0,33,15,0,4,14,0,23
+optimized_add_4bit,adder4_add,optimized,13,8,5,5,0,0,4,0,8,12,0,0,0,6,36,8,0,132,60,0,16,56,0,50
+optimized_shared_4bit,adder4_shared,optimized,14,9,5,6,0,0,13,0,8,21,0,0,0,9,45,8,0,141,69,0,16,56,0,52
