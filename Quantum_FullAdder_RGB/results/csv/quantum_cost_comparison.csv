@@ -1,0 +1,6 @@
+Architecture,Total_Gates,NCV_Primitive_Cost,Peres_Optimized_Cost,Decomposition_Basis
+1-Bit Baseline Full Adder,6,14,14,"NCV (V, V_dag, CX, X)"
+1-Bit Peres Full Adder,4,12,12,"NCV (V, V_dag, CX, X)"
+1-Bit Optimized Full Adder,5,13,13,"NCV (V, V_dag, CX, X)"
+4-Bit Baseline Adder-Subtractor,50,106,106,"NCV (V, V_dag, CX, X)"
+4-Bit Optimized Adder-Subtractor,40,96,96,"NCV (V, V_dag, CX, X)"

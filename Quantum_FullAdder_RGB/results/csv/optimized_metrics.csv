@@ -1,0 +1,3 @@
+Circuit,Architecture,Total_Qubits,Input_Qubits,Output_Qubits,Ancilla_Qubits,Garbage_Outputs,CNOT_Count,Toffoli_Count,Total_Gates,Circuit_Depth,Quantum_Cost
+1-Bit Full Adder,Optimized (Restored Peres),4,3,2,1,0,3,2,5,5,13
+4-Bit Adder-Subtractor,Optimized (Peres Carry-Pipeline),18,9,5,4,0,26,14,40,20,96
